@@ -73,8 +73,18 @@
 
     const carousel = `
         <div class="carousel">
+          <div class="carousel-items">
             ${carouselItem}
             ${carouselItem}
+          </div>
+          <div class="carousel-control-buttons">
+            <div class="carousel-control-prev">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAQNJREFUWEft1qFKBFEUh/HfJtti0qRRq9h9AZtNRJOCUbDoG4hJQTCLaFgWthgU9AF8HJNJ1B2YC4KGO3OHPQgz+TDfN/9z5p47EPwMgvl6gT6BrhOYxwgXeMoZ8C4FFmvoGu6xO0uBZTxjBbfYx8esBFZr+BKucISvHHhVU9qCdTxiAec4zQWnuhKBDTxgiGNcNoWXJLCJMeZwgJs28LYC2/WgfWIHk7bwNgKH035f4x1beCmBNxU4mUZ+hjdULXgthf87gUo4tAUp8dAhTBKhv2GSCD2IkkToUZwkQpdRkghdx0ni54XkDns5B1XJNvzr/aFXspwP/lXTdQKNJXqBPoFvJpkyIcOSNNYAAAAASUVORK5CYII=" alt="prev image">
+            </div>
+            <div class="carousel-control-next">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAQRJREFUWEft1qFKBUEUBuDvIkajT2I3CIposXlFo4JRgwgmbVoFuVm0WQSDyQewGcxWMSgmo7gDa7LM7A4ckN2ysAz8H2fPnJmR4GcUnG8ADBUoqcACjrCO91rNWwK4xiaesIy3GogSwBQm2MELFtt3L0cJIAWl9Wc4wCuW8NxHUAr4zTrEKT6wgseuiK6AlLeLC3w1fbGGhy6IPoCUt4FLfGOM21JEX0DKW8UNprHdgrIdNQApbB53mMEeznMFtQApbw73TV/MNrvlpPlwnIP4N4DQXxDahKHbMHQQhY3i0MMo/Di+wlbkhSTdgvbbK9lnzpTLWVNzEubk/VkzAIYKhFfgByhgNCFVjHxgAAAAAElFTkSuQmCC" alt="next image">
+            </div>
+          </div>
         </div>
     `;
 
@@ -132,11 +142,18 @@
 
     const carouselStyles = `
         .carousel {
-            display: flex;
             max-width: 1600px;
             max-height: 380px;
             width: 100%;
             height: 380px;
+        }
+
+        .carousel-items {
+          display: flex;
+        }
+
+        .carousel-control-buttons {
+          height: 100px;
         }
     `;
 
