@@ -80,8 +80,12 @@
 
     const container = `
         <div class="container">
-            <h1>You Might Also Like</h1>
-            ${carousel}
+            <div class="container-header">
+              <h1>You Might Also Like</h1>
+            </div>
+            <div class="container-body">
+              ${carousel}
+            </div>
         </div>
     `;
 
@@ -107,20 +111,34 @@
         body {
             background-color: #ffffff;
             color: #000000;
-            display: flex;
-            justify-content: center;
         }
         
         .container {
             background-color: #faf9f7;
-            max-width: 1600px;
-            max-height: 380px;
-            width: 1600px;
-            height: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .container-header {
+          width: 80%;
+        }
+
+        .container-body {
+            width: 80%;
         }
     `;
 
-    const carouselStyles = ``;
+    const carouselStyles = `
+        .carousel {
+            display: flex;
+            max-width: 1600px;
+            max-height: 380px;
+            width: 100%;
+            height: 380px;
+        }
+    `;
 
     $("<style>").addClass("reset").html(resetStyles).appendTo("head");
     $("<style>").addClass("general").html(generalStyles).appendTo("head");
