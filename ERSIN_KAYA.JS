@@ -64,7 +64,20 @@
 
     const productDetail = `
         <div class="product-detail">
-            <span>click event test</span>
+            <div class="product-card">
+              <div class="card-header">
+                <div class="card-image">
+                  <img class="product-image" src="https://img-lcwaikiki.mncdn.com/mnpadding/600/800/ffffff/pim/productimages/20242/7645834/v1/l_20242-w4j188z8-fr4_u.jpg" alt="product image" />
+                </div>
+                <div class="card-favorite-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="heart">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+              </div>
+            </div>
         </div>
     `;
 
@@ -77,7 +90,6 @@
     const carousel = `
         <div class="carousel">
           <div class="carousel-items">
-            ${carouselItem}
             ${carouselItem}
           </div>
           <div class="carousel-control-buttons">
@@ -133,6 +145,7 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
+            padding: 25px;
         }
 
         .container-header {
@@ -183,11 +196,61 @@
         }
     `;
 
+    const productDetailStyles = `
+      .product-detail {
+        background-color: #ffffff;
+        width: 210px;
+        height: 380px;
+        margin-right: 20px;
+      }
+
+      .product-card .card-header {
+        position: relative;
+      }
+
+      .product-image {
+        width: 210px;
+        height: 280px;
+      }
+
+      .card-favorite-icon {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        width: 34px;
+        height: 34px;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card-favorite-icon .heart {
+        fill: none;
+        stroke: #555555;
+        stroke-width: 1.5;
+        width: 23px;
+        height: 23px;
+        transition: fill 0.3s ease, stroke 0.3s ease;
+        /*
+        fill: #193db0;
+        stroke: #193db0;
+        */
+      }
+    `;
+
     $("<style>").addClass("reset").html(resetStyles).appendTo("head");
     $("<style>").addClass("general").html(generalStyles).appendTo("head");
     $("<style>")
-      .addClass("carousel-style")
+      .addClass("carousel-styles")
       .html(carouselStyles)
+      .appendTo("head");
+    $("<style>")
+      .addClass("product-detail-styles")
+      .html(productDetailStyles)
       .appendTo("head");
   };
 
