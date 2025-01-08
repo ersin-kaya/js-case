@@ -76,6 +76,12 @@
                 </div>
               </div>
               <div class="card-body">
+                <p class="product-name">
+                  Dik Yaka Uzun Kollu Renk Bloklu Erkek Kalın Sweatshirt
+                </p>
+                <p class="product-price">
+                  799,99 TL
+                </p>
               </div>
             </div>
         </div>
@@ -239,6 +245,26 @@
         fill: #193db0;
         stroke: #193db0;
         */
+      }
+
+      .card-body {
+        padding: 0 10px;
+      }
+
+      .product-name {
+        font-size: 14px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        height: 2.6em;
+      }
+
+      .product-price {
+        font-size: 18px;
+        font-weight: 600;
+        color: #193db0;
       }
     `;
 
