@@ -142,18 +142,35 @@
 
     const carouselStyles = `
         .carousel {
-            max-width: 1600px;
-            max-height: 380px;
-            width: 100%;
-            height: 380px;
+          position: relative;
+          max-width: 1600px;
+          max-height: 380px;
+          width: 100%;
+          height: 380px;
         }
 
         .carousel-items {
           display: flex;
+          width: 100%;
         }
 
         .carousel-control-buttons {
-          height: 100px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          top: 50%;
+        }
+
+        .carousel-control-prev {
+          position: absolute;
+          left: -35px;
+        }
+
+        .carousel-control-next {
+          position: absolute;
+          right: -35px;
         }
     `;
 
