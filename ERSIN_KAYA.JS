@@ -105,14 +105,18 @@
 
     const generalStyles = `
         body {
-            background-color:#ffffff;
-            color:#000000;
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            justify-content: center;
         }
         
         .container {
-            background-color: red;
-            height: 100px;
-            width: 100px;
+            background-color: #faf9f7;
+            max-width: 1600px;
+            max-height: 380px;
+            width: 1600px;
+            height: 380px;
         }
     `;
 
