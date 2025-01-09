@@ -11,6 +11,7 @@
   };
   const UI_CLASSES = {
     FAVORITED: "favorited",
+    DISABLED: "disabled",
   };
 
   let favoriteProductList =
@@ -27,6 +28,8 @@
       setEvents,
       fetchProducts,
       renderProducts,
+      updatePrevButtonState,
+      updateNextButtonState,
     };
 
     self.buildHTML();
@@ -36,6 +39,9 @@
 
       const products = await self.fetchProducts();
       self.renderProducts(products);
+
+      self.updatePrevButtonState();
+      self.updateNextButtonState();
     });
   };
 
@@ -199,6 +205,12 @@
         .carousel-control-next {
           right: -35px;
         }
+
+        .carousel-control-prev.${UI_CLASSES.DISABLED},
+        .carousel-control-next.${UI_CLASSES.DISABLED} {
+          pointer-events: none;
+          cursor: default;
+        }
     `;
 
     const productDetailStyles = `
@@ -288,6 +300,11 @@
 
       const favoriteTriggerTarget = $(e.target);
       updateFavoriteProductList(favoriteTriggerTarget);
+    });
+
+    $(".carousel-items").on("scroll", () => {
+      updatePrevButtonState();
+      updateNextButtonState();
     });
 
     $(".carousel-control-prev").on("click", (e) => {
@@ -391,7 +408,7 @@
 
   function updateFavoriteProductList(favoriteTriggerTarget) {
     setTimeout(() => {
-      // setTimeout() to make it look like the reaction on lcw.com
+      // Used setTimeout() to make it look like the reaction on lcw.com
 
       favoriteTriggerTarget
         .closest(".card-favorite-icon")
@@ -422,6 +439,31 @@
 
   function slideCarouselRight() {
     $(".carousel-items").animate({ scrollLeft: "+=229" }, 400, "swing");
+  }
+
+  function updatePrevButtonState() {
+    const $carouselItems = $(".carousel-items");
+    const $carouselControlPrev = $(".carousel-control-prev");
+
+    if ($carouselItems.scrollLeft() === 0) {
+      $carouselControlPrev.addClass(UI_CLASSES.DISABLED);
+    } else {
+      $carouselControlPrev.removeClass(UI_CLASSES.DISABLED);
+    }
+  }
+
+  function updateNextButtonState() {
+    const $carouselItems = $(".carousel-items");
+    const $carouselControlNext = $(".carousel-control-next");
+
+    const maxScrollLeft =
+      $carouselItems[0].scrollWidth - $carouselItems.outerWidth();
+
+    if (maxScrollLeft >= 0 && $carouselItems.scrollLeft() >= maxScrollLeft) {
+      $carouselControlNext.addClass(UI_CLASSES.DISABLED);
+    } else {
+      $carouselControlNext.removeClass(UI_CLASSES.DISABLED);
+    }
   }
 
   init();
