@@ -186,13 +186,17 @@
           top: 50%;
         }
 
-        .carousel-control-prev {
+        .carousel-control-prev,
+        .carousel-control-next {
           position: absolute;
+          cursor: pointer;
+        }
+
+        .carousel-control-prev {
           left: -35px;
         }
 
         .carousel-control-next {
-          position: absolute;
           right: -35px;
         }
     `;
@@ -284,6 +288,16 @@
 
       const favoriteTriggerTarget = $(e.target);
       updateFavoriteProductList(favoriteTriggerTarget);
+    });
+
+    $(".carousel-control-prev").on("click", (e) => {
+      e.stopPropagation();
+      slideCarouselLeft();
+    });
+
+    $(".carousel-control-next").on("click", (e) => {
+      e.stopPropagation();
+      slideCarouselRight();
     });
   };
 
@@ -400,6 +414,14 @@
 
       save();
     }, 500);
+  }
+
+  function slideCarouselLeft() {
+    $(".carousel-items").animate({ scrollLeft: "-=229" }, 400, "swing");
+  }
+
+  function slideCarouselRight() {
+    $(".carousel-items").animate({ scrollLeft: "+=229" }, 400, "swing");
   }
 
   init();
