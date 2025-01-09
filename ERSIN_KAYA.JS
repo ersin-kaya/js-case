@@ -106,18 +106,18 @@
         </div>
     `;
 
-    const container = `
-        <div class="container">
-            <div class="container-header">
+    const recommendedItems = `
+        <div id="recommended-items" class="recommended-items">
+            <div class="recommended-items-header">
               <h1>You Might Also Like</h1>
             </div>
-            <div class="container-body">
+            <div class="recommended-items-body">
               ${carousel}
             </div>
         </div>
     `;
 
-    bodyElement.insertAdjacentHTML("afterbegin", container);
+    bodyElement.insertAdjacentHTML("afterbegin", recommendedItems);
     document.replaceChild(htmlElement, document.documentElement);
   };
 
@@ -141,13 +141,10 @@
             color: #29323b;
             font-family: "Open Sans", serif;
         }
+    `;
 
-        a {
-          text-decoration: none;
-          color: inherit;
-        }
-        
-        .container {
+    const recommendedItemsStyles = `
+        .recommended-items {
             background-color: #faf9f7;
             display: flex;
             flex-direction: column;
@@ -156,16 +153,16 @@
             padding: 25px;
         }
 
-        .container-header {
+        .recommended-items-header {
           width: 80%;
           padding: 15px 0;
         }
           
-        .container-header h1 {
+        .recommended-items-header h1 {
           font-weight: 300;
         }
 
-        .container-body {
+        .recommended-items-body {
             width: 80%;
         }
     `;
@@ -264,6 +261,11 @@
         padding: 0 10px;
       }
 
+      .card-body a {
+        text-decoration: none;
+        color: inherit;
+      }
+
       .product-name {
         color: #302e2b;
         font-size: 14px;
@@ -284,6 +286,10 @@
 
     $("<style>").addClass("reset").html(resetStyles).appendTo("head");
     $("<style>").addClass("general").html(generalStyles).appendTo("head");
+    $("<style>")
+      .addClass("recommended-items-styles")
+      .html(recommendedItemsStyles)
+      .appendTo("head");
     $("<style>")
       .addClass("carousel-styles")
       .html(carouselStyles)
