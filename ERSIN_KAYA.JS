@@ -7,12 +7,17 @@
       buildHTML,
       buildCSS,
       setEvents,
+      fetchProducts,
+      renderProducts,
     };
 
     self.buildHTML();
-    self.loadJQueryScript(() => {
+    self.loadJQueryScript(async () => {
       self.buildCSS();
       self.setEvents();
+
+      const products = await self.fetchProducts();
+      self.renderProducts(products);
     });
   };
 
@@ -62,41 +67,9 @@
 
     titleElement.textContent = "Test Title";
 
-    const productDetail = `
-        <div class="product-detail">
-            <div class="product-card">
-              <div class="card-header">
-                <div class="card-image">
-                  <img class="product-image" src="https://img-lcwaikiki.mncdn.com/mnpadding/600/800/ffffff/pim/productimages/20242/7645834/v1/l_20242-w4j188z8-fr4_u.jpg" alt="product image" />
-                </div>
-                <div class="card-favorite-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="heart">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="card-body">
-                <p class="product-name">
-                  Dik Yaka Uzun Kollu Renk Bloklu Erkek Kalın Sweatshirt
-                </p>
-                <p class="product-price">
-                  799,99 TL
-                </p>
-              </div>
-            </div>
-        </div>
-    `;
-
-    const carouselItem = `
-        <div class="carousel-item">
-            ${productDetail}
-        </div>
-    `;
-
     const carousel = `
         <div class="carousel">
           <div class="carousel-items">
-            ${carouselItem}
           </div>
           <div class="carousel-control-buttons">
             <div class="carousel-control-prev">
@@ -180,6 +153,7 @@
         .carousel-items {
           display: flex;
           width: 100%;
+          overflow: hidden;
         }
 
         .carousel-control-buttons {
@@ -283,6 +257,56 @@
   const setEvents = () => {
     $(".carousel").on("click", ".product-detail", () => {
       console.log("clicked");
+    });
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(
+        "https://gist.githubusercontent.com/sevindi/5765c5812bbc8238a38b3cf52f233651/raw/56261d81af8561bf0a7cf692fe572f9e1e91f372/products.json"
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  const renderProducts = (products) => {
+    products.forEach((product) => {
+      const productDetail = `
+        <div class="product-detail">
+            <div class="product-card">
+              <div class="card-header">
+                <div class="card-image">
+                  <img class="product-image" src="${product.img}" alt="product image" />
+                </div>
+                <div class="card-favorite-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="heart">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="product-name">
+                  ${product.name}
+                </p>
+                <p class="product-price">
+                  ${product.price}
+                </p>
+              </div>
+            </div>
+        </div>
+    `;
+
+      const carouselItem = `
+        <div class="carousel-item">
+            ${productDetail}
+        </div>
+      `;
+
+      $(".carousel-items").append(carouselItem);
     });
   };
 
