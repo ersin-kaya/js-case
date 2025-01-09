@@ -1,4 +1,22 @@
 (() => {
+  class FavoriteProduct {
+    constructor(id) {
+      this.id = id;
+      this.favoriteAddedAt = Date.now();
+    }
+  }
+
+  const LOCAL_STORAGE_KEYS = {
+    FAVORITE_PRODUCT_LIST: "product.favoriteProductList",
+  };
+  const UI_CLASSES = {
+    FAVORITED: "favorited",
+  };
+
+  let favoriteProductList =
+    JSON.parse(getLocalStorageItem(LOCAL_STORAGE_KEYS.FAVORITE_PRODUCT_LIST)) ||
+    [];
+
   let self;
 
   const init = () => {
@@ -221,7 +239,7 @@
         transition: fill 0.3s ease, stroke 0.3s ease;
       }
 
-      .card-favorite-icon.favorited .heart{
+      .card-favorite-icon.${UI_CLASSES.FAVORITED} .heart{
         fill: #193db0;
         stroke: #193db0;
       }
@@ -263,9 +281,9 @@
   const setEvents = () => {
     $(".carousel").on("click", ".card-favorite-icon, .heart, path", (e) => {
       e.stopPropagation();
-      setTimeout(() => {
-        $(e.target).closest(".card-favorite-icon").toggleClass("favorited");
-      }, 500);
+
+      const favoriteTriggerTarget = $(e.target);
+      updateFavoriteProductList(favoriteTriggerTarget);
     });
   };
 
@@ -285,7 +303,7 @@
   const renderProducts = (products) => {
     products.forEach((product) => {
       const productDetail = `
-        <div class="product-detail">
+        <div class="product-detail" data-product-id="${product.id}">
             <div class="product-card">
               <div class="card-header">
                 <div class="card-image">
@@ -321,7 +339,68 @@
 
       $(".carousel-items").append(carouselItem);
     });
+
+    if (favoriteProductList.length) {
+      $(".product-detail").each((index, productDetailElement) => {
+        const productId = $(productDetailElement).data("product-id");
+        if (favoriteProductList.some((product) => product.id === productId)) {
+          const cardFavoriteIconElement = productDetailElement.querySelector(
+            ".card-favorite-icon"
+          );
+          $(cardFavoriteIconElement).addClass(UI_CLASSES.FAVORITED);
+        }
+      });
+    }
   };
+
+  function save() {
+    setLocalStorageItem(
+      LOCAL_STORAGE_KEYS.FAVORITE_PRODUCT_LIST,
+      favoriteProductList
+    );
+  }
+
+  function getLocalStorageItem(key) {
+    return localStorage.getItem(key);
+  }
+
+  function setLocalStorageItem(key, value) {
+    if (!key) {
+      return;
+    }
+
+    localStorage.setItem(
+      key,
+      typeof value === "object" ? JSON.stringify(value) : value
+    );
+  }
+
+  function updateFavoriteProductList(favoriteTriggerTarget) {
+    setTimeout(() => {
+      // setTimeout() to make it look like the reaction on lcw.com
+
+      favoriteTriggerTarget
+        .closest(".card-favorite-icon")
+        .toggleClass(UI_CLASSES.FAVORITED);
+
+      const targetProductId = $(favoriteTriggerTarget[0])
+        .closest(".product-detail")
+        .data("product-id");
+      const isFavorite = favoriteTriggerTarget
+        .closest(".card-favorite-icon")
+        .hasClass(UI_CLASSES.FAVORITED);
+
+      if (isFavorite) {
+        favoriteProductList.push(new FavoriteProduct(targetProductId));
+      } else {
+        favoriteProductList = favoriteProductList.filter(
+          (product) => product.id !== targetProductId
+        );
+      }
+
+      save();
+    }, 500);
+  }
 
   init();
 })();
