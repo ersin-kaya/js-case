@@ -117,6 +117,11 @@
             color: #29323b;
             font-family: "Open Sans", serif;
         }
+
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
         
         .container {
             background-color: #faf9f7;
@@ -255,8 +260,8 @@
   };
 
   const setEvents = () => {
-    $(".carousel").on("click", ".product-detail", () => {
-      console.log("clicked");
+    $(".carousel").on("click", ".product-image, .product-name", (e) => {
+      // console.log(e.target);
     });
   };
 
@@ -280,7 +285,9 @@
             <div class="product-card">
               <div class="card-header">
                 <div class="card-image">
-                  <img class="product-image" src="${product.img}" alt="product image" />
+                  <a href="${product.url}">
+                    <img class="product-image" src="${product.img}" alt="product image" />
+                  </a>
                 </div>
                 <div class="card-favorite-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="heart">
@@ -289,9 +296,11 @@
                 </div>
               </div>
               <div class="card-body">
-                <p class="product-name">
-                  ${product.name}
-                </p>
+                <a href="${product.url}">
+                  <p class="product-name">
+                    ${product.name}
+                  </p>
+                </a>
                 <p class="product-price">
                   ${product.price}
                 </p>
