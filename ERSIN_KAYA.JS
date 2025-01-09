@@ -149,8 +149,6 @@
     const carouselStyles = `
         .carousel {
           position: relative;
-          max-width: 1600px;
-          max-height: 380px;
           width: 100%;
           height: 380px;
         }
@@ -186,7 +184,7 @@
         background-color: #ffffff;
         width: 210px;
         height: 380px;
-        margin-right: 20px;
+        margin-right: 19px;
       }
 
       .product-card .card-header {
@@ -199,8 +197,9 @@
       }
 
       .card-favorite-icon {
+        cursor: pointer;
         position: absolute;
-        top: 10px;
+        top: 9px;
         right: 15px;
         width: 34px;
         height: 34px;
@@ -232,13 +231,14 @@
       }
 
       .product-name {
+        color: #302e2b;
         font-size: 14px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
         -webkit-line-clamp: 2;
-        height: 2.6em;
+        height: 2.65em;
       }
 
       .product-price {
@@ -263,7 +263,9 @@
   const setEvents = () => {
     $(".carousel").on("click", ".card-favorite-icon, .heart, path", (e) => {
       e.stopPropagation();
-      $(e.target).closest(".card-favorite-icon").toggleClass("favorited");
+      setTimeout(() => {
+        $(e.target).closest(".card-favorite-icon").toggleClass("favorited");
+      }, 500);
     });
   };
 
@@ -304,7 +306,7 @@
                   </p>
                 </a>
                 <p class="product-price">
-                  ${product.price}
+                  ${product.price} TL
                 </p>
               </div>
             </div>
