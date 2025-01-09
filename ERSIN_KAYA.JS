@@ -220,10 +220,11 @@
         width: 23px;
         height: 23px;
         transition: fill 0.3s ease, stroke 0.3s ease;
-        /*
+      }
+
+      .card-favorite-icon.favorited .heart{
         fill: #193db0;
         stroke: #193db0;
-        */
       }
 
       .card-body {
@@ -260,8 +261,9 @@
   };
 
   const setEvents = () => {
-    $(".carousel").on("click", ".product-image, .product-name", (e) => {
-      // console.log(e.target);
+    $(".carousel").on("click", ".card-favorite-icon, .heart, path", (e) => {
+      e.stopPropagation();
+      $(e.target).closest(".card-favorite-icon").toggleClass("favorited");
     });
   };
 
