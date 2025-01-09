@@ -298,8 +298,8 @@
     $(".carousel").on("click", ".card-favorite-icon, .heart, path", (e) => {
       e.stopPropagation();
 
-      const favoriteTriggerTarget = $(e.target);
-      updateFavoriteProductList(favoriteTriggerTarget);
+      const $favoriteTriggerTarget = $(e.target);
+      updateFavoriteProductList($favoriteTriggerTarget);
     });
 
     $(".carousel-items").on("scroll", () => {
@@ -375,10 +375,10 @@
       $(".product-detail").each((index, productDetailElement) => {
         const productId = $(productDetailElement).data("product-id");
         if (favoriteProductList.some((product) => product.id === productId)) {
-          const cardFavoriteIconElement = productDetailElement.querySelector(
+          const $cardFavoriteIconElement = $(productDetailElement).find(
             ".card-favorite-icon"
           );
-          $(cardFavoriteIconElement).addClass(UI_CLASSES.FAVORITED);
+          $cardFavoriteIconElement.addClass(UI_CLASSES.FAVORITED);
         }
       });
     }
