@@ -344,7 +344,7 @@
             <div class="product-card">
               <div class="card-header">
                 <div class="card-image">
-                  <a href="${product.url}">
+                  <a href="${product.url}" target="_blank">
                     <img class="product-image" src="${product.img}" alt="product image" />
                   </a>
                 </div>
@@ -355,7 +355,7 @@
                 </div>
               </div>
               <div class="card-body">
-                <a href="${product.url}">
+                <a href="${product.url}" target="_blank">
                   <p class="product-name">
                     ${product.name}
                   </p>
