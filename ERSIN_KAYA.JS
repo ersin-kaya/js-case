@@ -301,7 +301,7 @@
   };
 
   const setEvents = () => {
-    $(".carousel").on("click", ".card-favorite-icon, .heart, path", (e) => {
+    $(".carousel").on("click", ".card-favorite-icon", (e) => {
       e.stopPropagation();
 
       const $favoriteTriggerTarget = $(e.target);
