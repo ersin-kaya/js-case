@@ -94,11 +94,11 @@
 
         .${PREFIX}recommended-items-header,
         .${PREFIX}recommended-items-body {
+          width: 80%;
           margin-left: 28px;
         }
 
         .${PREFIX}recommended-items-header {
-          width: 80%;
           padding: 15px 0;
         }
           
@@ -107,7 +107,13 @@
         }
 
         .${PREFIX}recommended-items-body {
-            width: 80%;
+        }
+
+        @media screen and (max-width: 991px) {
+          .${PREFIX}recommended-items-header,
+          .${PREFIX}recommended-items-body {
+            width: 100%;
+          }
         }
     `;
 
@@ -122,6 +128,10 @@
           display: flex;
           width: 100%;
           overflow: hidden;
+        }
+
+        .${PREFIX}carousel-item {
+          margin-right: 19px;
         }
 
         .${PREFIX}carousel-control-buttons {
@@ -152,6 +162,33 @@
           pointer-events: none;
           cursor: default;
         }
+
+        @media screen and (max-width: 991px) {
+          .${PREFIX}carousel {
+            height: 510px;
+          }
+
+          .${PREFIX}carousel-items {
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+          }
+
+          .${PREFIX}carousel-items::-webkit-scrollbar {
+            display: none;
+          }
+
+          .${PREFIX}carousel-item {
+            margin-right: 29px;
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+            width: 280px;
+          }
+
+          .${PREFIX}carousel-control-buttons {
+            display: none;
+          }
+        }
     `;
 
     const productCardStyles = `
@@ -159,7 +196,6 @@
         background-color: #ffffff;
         width: 210px;
         height: 380px;
-        margin-right: 19px;
       }
 
       .${PREFIX}product-card .${PREFIX}card-header {
@@ -225,6 +261,36 @@
         font-size: 18px;
         font-weight: 600;
         color: #193db0;
+        height: 37.33px;
+      }
+
+      .${PREFIX}product-add-to-cart-button {
+        display: none;
+      }
+
+      @media screen and (max-width: 991px) {
+        .${PREFIX}product-card {
+          width: 280px;
+          height: 510px;
+        }
+
+        .${PREFIX}product-image {
+          width: 280px;
+          height: 373.33px;
+        }
+
+        .${PREFIX}product-add-to-cart-button {
+          display: block;
+          background-color: #193db0;
+          color: #ffffff;
+          width: 100%;
+          height: 35px;
+          border: none;
+          border-radius: 5px;
+          text-transform: uppercase;
+          font-size: 14px;
+          font-weight: bold;
+        }
       }
     `;
 
@@ -303,7 +369,7 @@
               </svg>
             </div>
           </div>
-          <div class="${PREFIX}card-body">
+          <div class="${PREFIX}card-body">          
             <a href="${product.url}" target="_blank">
               <p class="${PREFIX}product-name">
                 ${product.name}
@@ -312,6 +378,7 @@
             <p class="${PREFIX}product-price">
               ${product.price} TL
             </p>
+            <button class="${PREFIX}product-add-to-cart-button">Sepete Ekle</button>
           </div>
         </div>
     `;
