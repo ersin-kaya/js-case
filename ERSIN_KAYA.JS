@@ -7,6 +7,7 @@
   }
 
   const LOCAL_STORAGE_KEYS = {
+    PRODUCT_LIST: "product.productList",
     FAVORITE_PRODUCT_LIST: "product.favoriteProductList",
   };
   const UI_CLASSES = {
@@ -14,6 +15,8 @@
     DISABLED: "disabled",
   };
 
+  let productList =
+    JSON.parse(getLocalStorageItem(LOCAL_STORAGE_KEYS.PRODUCT_LIST)) || [];
   let favoriteProductList =
     JSON.parse(getLocalStorageItem(LOCAL_STORAGE_KEYS.FAVORITE_PRODUCT_LIST)) ||
     [];
@@ -37,8 +40,11 @@
       self.buildCSS();
       self.setEvents();
 
-      const products = await self.fetchProducts();
-      self.renderProducts(products);
+      if (!productList.length) {
+        productList = await self.fetchProducts();
+        saveData();
+      }
+      self.renderProducts();
 
       self.updatePrevButtonState();
       self.updateNextButtonState();
@@ -345,15 +351,15 @@
     }
   };
 
-  const renderProducts = (products) => {
-    products.forEach((product) => {
+  const renderProducts = () => {
+    productList.forEach((product) => {
       const productDetail = `
         <div class="product-detail" data-product-id="${product.id}">
             <div class="product-card">
               <div class="card-header">
                 <div class="card-image">
                   <a href="${product.url}" target="_blank">
-                    <img class="product-image" src="${product.img}" alt="product image" />
+                    <img class="product-image" src="${product.img}" alt="${product.name} image" />
                   </a>
                 </div>
                 <div class="card-favorite-icon">
@@ -398,7 +404,8 @@
     }
   };
 
-  function save() {
+  function saveData() {
+    setLocalStorageItem(LOCAL_STORAGE_KEYS.PRODUCT_LIST, productList);
     setLocalStorageItem(
       LOCAL_STORAGE_KEYS.FAVORITE_PRODUCT_LIST,
       favoriteProductList
@@ -443,7 +450,7 @@
         );
       }
 
-      save();
+      saveData();
     }, 500);
   }
 
