@@ -216,8 +216,8 @@
         }
     `;
 
-    const productDetailStyles = `
-      .product-detail {
+    const productCardStyles = `
+      .product-card {
         background-color: #ffffff;
         width: 210px;
         height: 380px;
@@ -301,8 +301,8 @@
       .html(carouselStyles)
       .appendTo("head");
     $("<style>")
-      .addClass("product-detail-styles")
-      .html(productDetailStyles)
+      .addClass("product-card-styles")
+      .html(productCardStyles)
       .appendTo("head");
   };
 
@@ -353,38 +353,36 @@
 
   const renderProducts = () => {
     productList.forEach((product) => {
-      const productDetail = `
-        <div class="product-detail" data-product-id="${product.id}">
-            <div class="product-card">
-              <div class="card-header">
-                <div class="card-image">
-                  <a href="${product.url}" target="_blank">
-                    <img class="product-image" src="${product.img}" alt="${product.name} image" />
-                  </a>
-                </div>
-                <div class="card-favorite-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="heart">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                </div>
-              </div>
-              <div class="card-body">
-                <a href="${product.url}" target="_blank">
-                  <p class="product-name">
-                    ${product.name}
-                  </p>
-                </a>
-                <p class="product-price">
-                  ${product.price} TL
-                </p>
-              </div>
+      const productCard = `
+        <div class="product-card" data-product-id="${product.id}">
+          <div class="card-header">
+            <div class="card-image">
+              <a href="${product.url}" target="_blank">
+                <img class="product-image" src="${product.img}" alt="${product.name} image" />
+              </a>
             </div>
+            <div class="card-favorite-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="heart">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <a href="${product.url}" target="_blank">
+              <p class="product-name">
+                ${product.name}
+              </p>
+            </a>
+            <p class="product-price">
+              ${product.price} TL
+            </p>
+          </div>
         </div>
     `;
 
       const carouselItem = `
         <div class="carousel-item">
-            ${productDetail}
+            ${productCard}
         </div>
       `;
 
@@ -392,10 +390,10 @@
     });
 
     if (favoriteProductList.length) {
-      $(".product-detail").each((index, productDetailElement) => {
-        const productId = $(productDetailElement).data("product-id");
+      $(".product-card").each((index, productCardElement) => {
+        const productId = $(productCardElement).data("product-id");
         if (favoriteProductList.some((product) => product.id === productId)) {
-          const $cardFavoriteIconElement = $(productDetailElement).find(
+          const $cardFavoriteIconElement = $(productCardElement).find(
             ".card-favorite-icon"
           );
           $cardFavoriteIconElement.addClass(UI_CLASSES.FAVORITED);
@@ -436,7 +434,7 @@
         .toggleClass(UI_CLASSES.FAVORITED);
 
       const targetProductId = $(favoriteTriggerTarget[0])
-        .closest(".product-detail")
+        .closest(".product-card")
         .data("product-id");
       const isFavorite = favoriteTriggerTarget
         .closest(".card-favorite-icon")
