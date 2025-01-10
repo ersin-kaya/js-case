@@ -87,7 +87,12 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            padding: 25px;
+            padding-bottom: 24px;
+        }
+
+        .${PREFIX}recommended-items-header,
+        .${PREFIX}recommended-items-body {
+          margin-left: 28px;
         }
 
         .${PREFIX}recommended-items-header {
