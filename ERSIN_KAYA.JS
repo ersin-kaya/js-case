@@ -254,14 +254,15 @@
         overflow: hidden;
         text-overflow: ellipsis;
         -webkit-line-clamp: 2;
-        height: 2.65em;
+        height: 2.8em;
+        margin: 0;
       }
 
       .${PREFIX}product-price {
         font-size: 18px;
         font-weight: 600;
         color: #193db0;
-        height: 37.33px;
+        height: 45px;
       }
 
       .${PREFIX}product-add-to-cart-button {
