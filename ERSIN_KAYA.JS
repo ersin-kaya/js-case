@@ -261,6 +261,7 @@
         font-size: 18px;
         font-weight: 600;
         color: #193db0;
+        height: 37.33px;
       }
 
       .${PREFIX}product-add-to-cart-button {
@@ -368,7 +369,7 @@
               </svg>
             </div>
           </div>
-          <div class="${PREFIX}card-body">
+          <div class="${PREFIX}card-body">          
             <a href="${product.url}" target="_blank">
               <p class="${PREFIX}product-name">
                 ${product.name}
