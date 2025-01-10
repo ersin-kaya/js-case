@@ -7,9 +7,11 @@
   }
 
   const PREFIX = "insider-";
+  const PREFIX_FOR_LOCAL_STORAGE = PREFIX.replace("-", ".");
+
   const LOCAL_STORAGE_KEYS = {
-    PRODUCT_LIST: `${PREFIX.split("-").join(".")}productList`,
-    FAVORITE_PRODUCT_LIST: `${PREFIX.split("-").join(".")}favoriteProductList`,
+    PRODUCT_LIST: `${PREFIX_FOR_LOCAL_STORAGE}productList`,
+    FAVORITE_PRODUCT_LIST: `${PREFIX_FOR_LOCAL_STORAGE}favoriteProductList`,
   };
   const UI_CLASSES = {
     FAVORITED: `${PREFIX}favorited`,
