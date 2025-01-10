@@ -429,5 +429,7 @@
     }
   }
 
-  init();
+  if ($(".product-detail")) {
+    init();
+  }
 })();
