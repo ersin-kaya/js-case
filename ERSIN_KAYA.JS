@@ -6,13 +6,14 @@
     }
   }
 
+  const PREFIX = "insider-";
   const LOCAL_STORAGE_KEYS = {
-    PRODUCT_LIST: "product.productList",
-    FAVORITE_PRODUCT_LIST: "product.favoriteProductList",
+    PRODUCT_LIST: `${PREFIX.split("-").join(".")}productList`,
+    FAVORITE_PRODUCT_LIST: `${PREFIX.split("-").join(".")}favoriteProductList`,
   };
   const UI_CLASSES = {
-    FAVORITED: "favorited",
-    DISABLED: "disabled",
+    FAVORITED: `${PREFIX}favorited`,
+    DISABLED: `${PREFIX}disabled`,
   };
 
   let productList =
@@ -23,9 +24,8 @@
 
   let self;
 
-  const init = () => {
+  const init = async () => {
     self = {
-      loadJQueryScript,
       buildHTML,
       buildCSS,
       setEvents,
@@ -36,76 +36,29 @@
     };
 
     self.buildHTML();
-    self.loadJQueryScript(async () => {
-      self.buildCSS();
-      self.setEvents();
+    self.buildCSS();
+    self.setEvents();
 
-      if (!productList.length) {
-        productList = await self.fetchProducts();
-        saveData();
-      }
-      self.renderProducts();
+    if (!productList.length) {
+      productList = await self.fetchProducts();
+      saveData();
+    }
+    self.renderProducts();
 
-      self.updatePrevButtonState();
-      self.updateNextButtonState();
-    });
-  };
-
-  const loadJQueryScript = (callback) => {
-    const scriptElementForJQuery = document.createElement("script");
-
-    scriptElementForJQuery.setAttribute("defer", "");
-    scriptElementForJQuery.setAttribute(
-      "src",
-      "https://code.jquery.com/jquery-3.7.1.min.js"
-    );
-    scriptElementForJQuery.setAttribute(
-      "integrity",
-      "sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-    );
-    scriptElementForJQuery.setAttribute("crossorigin", "anonymous");
-
-    scriptElementForJQuery.onload = () => {
-      callback();
-    };
-
-    document.head.appendChild(scriptElementForJQuery);
+    self.updatePrevButtonState();
+    self.updateNextButtonState();
   };
 
   const buildHTML = () => {
-    const htmlContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-        </head>
-        <body></body>
-        </html>
-    `;
-
-    const parser = new DOMParser();
-    const newDocument = parser.parseFromString(htmlContent, "text/html");
-    const htmlElement = newDocument.documentElement;
-    const headElement = htmlElement.querySelector("head");
-    const titleElement = headElement.querySelector("title");
-    const bodyElement = htmlElement.querySelector("body");
-
-    titleElement.textContent = "Test Title";
-
     const carousel = `
-        <div class="carousel">
-          <div class="carousel-items">
+        <div class="${PREFIX}carousel">
+          <div class="${PREFIX}carousel-items">
           </div>
-          <div class="carousel-control-buttons">
-            <div class="carousel-control-prev">
+          <div class="${PREFIX}carousel-control-buttons">
+            <div class="${PREFIX}carousel-control-prev">
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAQNJREFUWEft1qFKBFEUh/HfJtti0qRRq9h9AZtNRJOCUbDoG4hJQTCLaFgWthgU9AF8HJNJ1B2YC4KGO3OHPQgz+TDfN/9z5p47EPwMgvl6gT6BrhOYxwgXeMoZ8C4FFmvoGu6xO0uBZTxjBbfYx8esBFZr+BKucISvHHhVU9qCdTxiAec4zQWnuhKBDTxgiGNcNoWXJLCJMeZwgJs28LYC2/WgfWIHk7bwNgKH035f4x1beCmBNxU4mUZ+hjdULXgthf87gUo4tAUp8dAhTBKhv2GSCD2IkkToUZwkQpdRkghdx0ni54XkDns5B1XJNvzr/aFXspwP/lXTdQKNJXqBPoFvJpkyIcOSNNYAAAAASUVORK5CYII=" alt="prev image">
             </div>
-            <div class="carousel-control-next">
+            <div class="${PREFIX}carousel-control-next">
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAQRJREFUWEft1qFKBUEUBuDvIkajT2I3CIposXlFo4JRgwgmbVoFuVm0WQSDyQewGcxWMSgmo7gDa7LM7A4ckN2ysAz8H2fPnJmR4GcUnG8ADBUoqcACjrCO91rNWwK4xiaesIy3GogSwBQm2MELFtt3L0cJIAWl9Wc4wCuW8NxHUAr4zTrEKT6wgseuiK6AlLeLC3w1fbGGhy6IPoCUt4FLfGOM21JEX0DKW8UNprHdgrIdNQApbB53mMEeznMFtQApbw73TV/MNrvlpPlwnIP4N4DQXxDahKHbMHQQhY3i0MMo/Di+wlbkhSTdgvbbK9lnzpTLWVNzEubk/VkzAIYKhFfgByhgNCFVjHxgAAAAAElFTkSuQmCC" alt="next image">
             </div>
           </div>
@@ -113,44 +66,22 @@
     `;
 
     const recommendedItems = `
-        <div id="recommended-items" class="recommended-items">
-            <div class="recommended-items-header">
+        <div id="${PREFIX}recommended-items" class="${PREFIX}recommended-items">
+            <div class="${PREFIX}recommended-items-header">
               <h1>You Might Also Like</h1>
             </div>
-            <div class="recommended-items-body">
+            <div class="${PREFIX}recommended-items-body">
               ${carousel}
             </div>
         </div>
     `;
 
-    bodyElement.insertAdjacentHTML("afterbegin", recommendedItems);
-    document.replaceChild(htmlElement, document.documentElement);
+    $(".product-detail").after(recommendedItems);
   };
 
   const buildCSS = () => {
-    const resetStyles = `
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-        }
-    `;
-
-    const generalStyles = `
-        body {
-            background-color: #ffffff;
-            color: #29323b;
-            font-family: "Open Sans", serif;
-        }
-    `;
-
     const recommendedItemsStyles = `
-        .recommended-items {
+        .${PREFIX}recommended-items {
             background-color: #faf9f7;
             display: flex;
             flex-direction: column;
@@ -159,34 +90,34 @@
             padding: 25px;
         }
 
-        .recommended-items-header {
+        .${PREFIX}recommended-items-header {
           width: 80%;
           padding: 15px 0;
         }
           
-        .recommended-items-header h1 {
+        .${PREFIX}recommended-items-header h1 {
           font-weight: 300;
         }
 
-        .recommended-items-body {
+        .${PREFIX}recommended-items-body {
             width: 80%;
         }
     `;
 
     const carouselStyles = `
-        .carousel {
+        .${PREFIX}carousel {
           position: relative;
           width: 100%;
           height: 380px;
         }
 
-        .carousel-items {
+        .${PREFIX}carousel-items {
           display: flex;
           width: 100%;
           overflow: hidden;
         }
 
-        .carousel-control-buttons {
+        .${PREFIX}carousel-control-buttons {
           width: 100%;
           display: flex;
           justify-content: center;
@@ -195,45 +126,45 @@
           top: 50%;
         }
 
-        .carousel-control-prev,
-        .carousel-control-next {
+        .${PREFIX}carousel-control-prev,
+        .${PREFIX}carousel-control-next {
           position: absolute;
           cursor: pointer;
         }
 
-        .carousel-control-prev {
+        .${PREFIX}carousel-control-prev {
           left: -35px;
         }
 
-        .carousel-control-next {
+        .${PREFIX}carousel-control-next {
           right: -35px;
         }
 
-        .carousel-control-prev.${UI_CLASSES.DISABLED},
-        .carousel-control-next.${UI_CLASSES.DISABLED} {
+        .${PREFIX}carousel-control-prev.${UI_CLASSES.DISABLED},
+        .${PREFIX}carousel-control-next.${UI_CLASSES.DISABLED} {
           pointer-events: none;
           cursor: default;
         }
     `;
 
     const productCardStyles = `
-      .product-card {
+      .${PREFIX}product-card {
         background-color: #ffffff;
         width: 210px;
         height: 380px;
         margin-right: 19px;
       }
 
-      .product-card .card-header {
+      .${PREFIX}product-card .${PREFIX}card-header {
         position: relative;
       }
 
-      .product-image {
+      .${PREFIX}product-image {
         width: 210px;
         height: 280px;
       }
 
-      .card-favorite-icon {
+      .${PREFIX}card-favorite-icon {
         cursor: pointer;
         position: absolute;
         top: 9px;
@@ -249,7 +180,7 @@
         align-items: center;
       }
 
-      .card-favorite-icon .heart {
+      .${PREFIX}card-favorite-icon .${PREFIX}heart {
         fill: none;
         stroke: #555555;
         stroke-width: 1.5;
@@ -258,21 +189,21 @@
         transition: fill 0.3s ease, stroke 0.3s ease;
       }
 
-      .card-favorite-icon.${UI_CLASSES.FAVORITED} .heart{
+      .${PREFIX}card-favorite-icon.${UI_CLASSES.FAVORITED} .${PREFIX}heart{
         fill: #193db0;
         stroke: #193db0;
       }
 
-      .card-body {
+      .${PREFIX}card-body {
         padding: 0 10px;
       }
 
-      .card-body a {
+      .${PREFIX}card-body a {
         text-decoration: none;
         color: inherit;
       }
 
-      .product-name {
+      .${PREFIX}product-name {
         color: #302e2b;
         font-size: 14px;
         display: -webkit-box;
@@ -283,25 +214,23 @@
         height: 2.65em;
       }
 
-      .product-price {
+      .${PREFIX}product-price {
         font-size: 18px;
         font-weight: 600;
         color: #193db0;
       }
     `;
 
-    $("<style>").addClass("reset").html(resetStyles).appendTo("head");
-    $("<style>").addClass("general").html(generalStyles).appendTo("head");
     $("<style>")
-      .addClass("recommended-items-styles")
+      .addClass(`${PREFIX}recommended-items-styles`)
       .html(recommendedItemsStyles)
       .appendTo("head");
     $("<style>")
-      .addClass("carousel-styles")
+      .addClass(`${PREFIX}carousel-styles`)
       .html(carouselStyles)
       .appendTo("head");
     $("<style>")
-      .addClass("product-card-styles")
+      .addClass(`${PREFIX}product-card-styles`)
       .html(productCardStyles)
       .appendTo("head");
   };
@@ -315,24 +244,24 @@
       }
     });
 
-    $(".carousel").on("click", ".card-favorite-icon", (e) => {
+    $(`.${PREFIX}carousel`).on("click", `.${PREFIX}card-favorite-icon`, (e) => {
       e.stopPropagation();
 
       const $favoriteTriggerTarget = $(e.target);
       updateFavoriteProductList($favoriteTriggerTarget);
     });
 
-    $(".carousel-items").on("scroll", () => {
+    $(`.${PREFIX}carousel-items`).on("scroll", () => {
       updatePrevButtonState();
       updateNextButtonState();
     });
 
-    $(".carousel-control-prev").on("click", (e) => {
+    $(`.${PREFIX}carousel-control-prev`).on("click", (e) => {
       e.stopPropagation();
       slideCarouselLeft();
     });
 
-    $(".carousel-control-next").on("click", (e) => {
+    $(`.${PREFIX}carousel-control-next`).on("click", (e) => {
       e.stopPropagation();
       slideCarouselRight();
     });
@@ -354,26 +283,26 @@
   const renderProducts = () => {
     productList.forEach((product) => {
       const productCard = `
-        <div class="product-card" data-product-id="${product.id}">
-          <div class="card-header">
-            <div class="card-image">
+        <div class="${PREFIX}product-card" data-product-id="${product.id}">
+          <div class="${PREFIX}card-header">
+            <div class="${PREFIX}card-image">
               <a href="${product.url}" target="_blank">
-                <img class="product-image" src="${product.img}" alt="${product.name} image" />
+                <img class="${PREFIX}product-image" src="${product.img}" alt="${product.name} image" />
               </a>
             </div>
-            <div class="card-favorite-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="heart">
+            <div class="${PREFIX}card-favorite-icon">
+              <svg class="${PREFIX}heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
               </svg>
             </div>
           </div>
-          <div class="card-body">
+          <div class="${PREFIX}card-body">
             <a href="${product.url}" target="_blank">
-              <p class="product-name">
+              <p class="${PREFIX}product-name">
                 ${product.name}
               </p>
             </a>
-            <p class="product-price">
+            <p class="${PREFIX}product-price">
               ${product.price} TL
             </p>
           </div>
@@ -381,20 +310,20 @@
     `;
 
       const carouselItem = `
-        <div class="carousel-item">
+        <div class="${PREFIX}carousel-item">
             ${productCard}
         </div>
       `;
 
-      $(".carousel-items").append(carouselItem);
+      $(`.${PREFIX}carousel-items`).append(carouselItem);
     });
 
     if (favoriteProductList.length) {
-      $(".product-card").each((index, productCardElement) => {
+      $(`.${PREFIX}product-card`).each((index, productCardElement) => {
         const productId = $(productCardElement).data("product-id");
         if (favoriteProductList.some((product) => product.id === productId)) {
           const $cardFavoriteIconElement = $(productCardElement).find(
-            ".card-favorite-icon"
+            `.${PREFIX}card-favorite-icon`
           );
           $cardFavoriteIconElement.addClass(UI_CLASSES.FAVORITED);
         }
@@ -430,14 +359,14 @@
       // Used setTimeout() to make it look like the reaction on lcw.com
 
       favoriteTriggerTarget
-        .closest(".card-favorite-icon")
+        .closest(`.${PREFIX}card-favorite-icon`)
         .toggleClass(UI_CLASSES.FAVORITED);
 
       const targetProductId = $(favoriteTriggerTarget[0])
-        .closest(".product-card")
+        .closest(`.${PREFIX}product-card`)
         .data("product-id");
       const isFavorite = favoriteTriggerTarget
-        .closest(".card-favorite-icon")
+        .closest(`.${PREFIX}card-favorite-icon`)
         .hasClass(UI_CLASSES.FAVORITED);
 
       if (isFavorite) {
@@ -453,16 +382,24 @@
   }
 
   function slideCarouselLeft() {
-    $(".carousel-items").animate({ scrollLeft: "-=229" }, 400, "swing");
+    $(`.${PREFIX}carousel-items`).animate(
+      { scrollLeft: "-=229" },
+      400,
+      "swing"
+    );
   }
 
   function slideCarouselRight() {
-    $(".carousel-items").animate({ scrollLeft: "+=229" }, 400, "swing");
+    $(`.${PREFIX}carousel-items`).animate(
+      { scrollLeft: "+=229" },
+      400,
+      "swing"
+    );
   }
 
   function updatePrevButtonState() {
-    const $carouselItems = $(".carousel-items");
-    const $carouselControlPrev = $(".carousel-control-prev");
+    const $carouselItems = $(`.${PREFIX}carousel-items`);
+    const $carouselControlPrev = $(`.${PREFIX}carousel-control-prev`);
 
     if ($carouselItems.scrollLeft() === 0) {
       $carouselControlPrev.addClass(UI_CLASSES.DISABLED);
@@ -472,8 +409,8 @@
   }
 
   function updateNextButtonState() {
-    const $carouselItems = $(".carousel-items");
-    const $carouselControlNext = $(".carousel-control-next");
+    const $carouselItems = $(`.${PREFIX}carousel-items`);
+    const $carouselControlNext = $(`.${PREFIX}carousel-control-next`);
 
     const maxScrollLeft =
       $carouselItems[0].scrollWidth - $carouselItems.outerWidth();
