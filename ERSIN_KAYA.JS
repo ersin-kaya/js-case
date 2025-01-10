@@ -263,6 +263,10 @@
         color: #193db0;
       }
 
+      .${PREFIX}product-add-to-cart-button {
+        display: none;
+      }
+
       @media screen and (max-width: 991px) {
         .${PREFIX}product-card {
           width: 280px;
@@ -272,6 +276,19 @@
         .${PREFIX}product-image {
           width: 280px;
           height: 373.33px;
+        }
+
+        .${PREFIX}product-add-to-cart-button {
+          display: block;
+          background-color: #193db0;
+          color: #ffffff;
+          width: 100%;
+          height: 35px;
+          border: none;
+          border-radius: 5px;
+          text-transform: uppercase;
+          font-size: 14px;
+          font-weight: bold;
         }
       }
     `;
@@ -360,6 +377,7 @@
             <p class="${PREFIX}product-price">
               ${product.price} TL
             </p>
+            <button class="${PREFIX}product-add-to-cart-button">Sepete Ekle</button>
           </div>
         </div>
     `;
