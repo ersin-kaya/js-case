@@ -314,14 +314,6 @@
   };
 
   const setEvents = () => {
-    $(document).on("keydown", (e) => {
-      if (e.key === "ArrowRight") {
-        slideCarouselRight();
-      } else if (e.key === "ArrowLeft") {
-        slideCarouselLeft();
-      }
-    });
-
     $(`.${PREFIX}carousel`).on("click", `.${PREFIX}card-favorite-icon`, (e) => {
       e.stopPropagation();
 
