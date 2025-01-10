@@ -127,10 +127,19 @@
         .${PREFIX}carousel-items {
           display: flex;
           width: 100%;
-          overflow: hidden;
+          overflow-x: scroll;
+          scroll-snap-type: x mandatory;
+          scroll-behavior: smooth;
+        }
+
+        .${PREFIX}carousel-items::-webkit-scrollbar {
+          display: none;
         }
 
         .${PREFIX}carousel-item {
+          scroll-snap-align: start;
+          flex: 0 0 auto;
+          width: 210px;
           margin-right: 19px;
         }
 
@@ -168,21 +177,9 @@
             height: 510px;
           }
 
-          .${PREFIX}carousel-items {
-            overflow-x: scroll;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-          }
-
-          .${PREFIX}carousel-items::-webkit-scrollbar {
-            display: none;
-          }
-
           .${PREFIX}carousel-item {
-            margin-right: 29px;
-            scroll-snap-align: start;
-            flex: 0 0 auto;
             width: 280px;
+            margin-right: 29px;
           }
 
           .${PREFIX}carousel-control-buttons {
@@ -314,6 +311,13 @@
   };
 
   const setEvents = () => {
+    const $carouselItems = $(`.${PREFIX}carousel-items`);
+    let isDragging = false;
+    let startX, scrollLeft;
+    let mouseX,
+      mouseY,
+      mouseMoved = false;
+
     $(`.${PREFIX}carousel`).on("click", `.${PREFIX}card-favorite-icon`, (e) => {
       e.stopPropagation();
 
@@ -321,7 +325,7 @@
       updateFavoriteProductList($favoriteTriggerTarget);
     });
 
-    $(`.${PREFIX}carousel-items`).on("scroll", () => {
+    $carouselItems.on("scroll", () => {
       updatePrevButtonState();
       updateNextButtonState();
     });
@@ -334,6 +338,38 @@
     $(`.${PREFIX}carousel-control-next`).on("click", (e) => {
       e.stopPropagation();
       slideCarouselRight();
+    });
+
+    $carouselItems.on("click", "a", (e) => {
+      if (mouseMoved) {
+        e.preventDefault();
+        mouseMoved = false;
+      }
+    });
+
+    $carouselItems.on("mousedown", (e) => {
+      e.preventDefault();
+      isDragging = true;
+      startX = e.pageX - $carouselItems.offset().left;
+      scrollLeft = $carouselItems.scrollLeft();
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    $(document).on("mouseup", (e) => {
+      e.preventDefault();
+      isDragging = false;
+      if (mouseX !== e.clientX && mouseY !== e.clientY) {
+        mouseMoved = true;
+      }
+    });
+
+    $carouselItems.on("mousemove", (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.pageX - $carouselItems.offset().left;
+      const walk = (x - startX) * 2.5;
+      $carouselItems.scrollLeft(scrollLeft - walk);
     });
   };
 
