@@ -278,7 +278,11 @@
         }
 
         .${PREFIX}product-name {
-          margin: 0 0 0;
+          margin: 5px 0 0;
+        }
+
+        .${PREFIX}product-price {
+          height: 40px;
         }
 
         .${PREFIX}product-add-to-cart-button {
