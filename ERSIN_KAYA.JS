@@ -255,7 +255,7 @@
         text-overflow: ellipsis;
         -webkit-line-clamp: 2;
         height: 2.8em;
-        margin: 0;
+        margin: 5px 0 0;
       }
 
       .${PREFIX}product-price {
@@ -278,6 +278,10 @@
         .${PREFIX}product-image {
           width: 280px;
           height: 373.33px;
+        }
+
+        .${PREFIX}product-name {
+          margin: 0 0 0;
         }
 
         .${PREFIX}product-add-to-cart-button {
